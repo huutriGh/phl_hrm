@@ -1,12 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { createBrowserHistory } from 'history';
+import { Provider } from 'react-redux';
 import App from './App';
+import { Router } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/styles';
 import * as serviceWorker from './serviceWorker';
+import { store, persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import theme from './theme';
+const browserHistory = createBrowserHistory();
+ReactDOM.render(
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <ThemeProvider theme={theme}>
+        <Router history={browserHistory}>
+          <App />
+        </Router>
+      </ThemeProvider>
+    </PersistGate>
+  </Provider>,
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+  document.getElementById('root')
+);
 serviceWorker.unregister();
