@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import validate from 'validate.js';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Grid,
-  Button,
-  IconButton,
-  TextField,
-  Link,
-  Typography
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Redirect, withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import validate from 'validate.js';
 import { signInStart } from './../../redux/user/user.actions';
-
-// import { Facebook as FacebookIcon, Google as GoogleIcon } from './../../icons';
+import { selectCurrentUser } from './../../redux/user/user.selectors';
 
 const schema = {
   user: {
@@ -127,8 +119,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-  const { history, signInWithUser } = props;
-
+  const { signInWithUser, currentUser } = props;
   const classes = useStyles();
 
   const [formState, setFormState] = useState({
@@ -147,10 +138,7 @@ const SignIn = props => {
       errors: errors || {}
     }));
   }, [formState.values]);
-
-  const handleBack = () => {
-    history.goBack();
-  };
+  if (currentUser) return <Redirect from='/sign-in' to='/' />;
 
   const handleChange = event => {
     event.persist();
@@ -203,11 +191,11 @@ const SignIn = props => {
         </Grid>
         <Grid className={classes.content} item lg={7} xs={12}>
           <div className={classes.content}>
-            <div className={classes.contentHeader}>
+            {/*<div className={classes.contentHeader}>
               <IconButton onClick={handleBack}>
                 <ArrowBackIcon />
               </IconButton>
-            </div>
+            </div>*/}
             <div className={classes.contentBody}>
               <form className={classes.form} onSubmit={handleSignIn}>
                 <Typography className={classes.title} variant='h2'>
@@ -261,12 +249,14 @@ const SignIn = props => {
                 >
                   Đăng nhập
                 </Button>
-                <Typography color='textSecondary' variant='body1'>
+                {/*
+                  <Typography color='textSecondary' variant='body1'>
                   Don't have an account?{' '}
                   <Link component={RouterLink} to='/sign-up' variant='h6'>
                     Sign up
                   </Link>
                 </Typography>
+                   */}
               </form>
             </div>
           </div>
@@ -279,9 +269,11 @@ const SignIn = props => {
 SignIn.propTypes = {
   history: PropTypes.object
 };
-
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
 const mapDispatchToProps = dispatch => ({
   signInWithUser: (userName, password) =>
     dispatch(signInStart({ userName, password }))
 });
-export default connect(null, mapDispatchToProps)(withRouter(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));

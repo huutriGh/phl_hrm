@@ -13,7 +13,6 @@ Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
 });
 
 const App = ({ currentUser, checkUserSession }) => {
-  console.log('app');
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);

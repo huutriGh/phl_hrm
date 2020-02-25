@@ -1,16 +1,20 @@
 import axios from 'axios';
 
-const instance = axios
-  .create
-  //   {
-  //   baseURL: 'http://localhost:5000',
-  //   // headers: {
-  //   //   'Access-Control-Allow-Origin': '*',
-  //   //   crossorigin: true,
-  //   //   useCredentails: true
-  //   // }
-  // }
-  ();
+const instance = axios.create({
+  baseURL: 'http://cisapi.tphsoft.com.vn'
+});
+
+// const instance = axios
+//   .create
+//   //   {
+//   //   baseURL: 'http://localhost:5000',
+//   //   // headers: {
+//   //   //   'Access-Control-Allow-Origin': '*',
+//   //   //   crossorigin: true,
+//   //   //   useCredentails: true
+//   //   // }
+//   // }
+//   ();
 
 instance.interceptors.request.use(
   async config => {

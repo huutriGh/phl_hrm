@@ -5,13 +5,14 @@ import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 import Account from './pages/Account/Account.component';
 import Login from './pages/login/login.component';
 import NotFound from './pages/NotFound/NotFound.component';
-import Reception from './components/Reception/Reception.component';
+import Reception from './pages/Reception/Reception.component';
+import Examination from './pages/Examnination/Examination.conponent';
 
 const Routes = ({ currentUser }) => {
-  console.log('currentUser Route: ', currentUser);
   return (
-    <>
+    <Switch>
       <Route path='/sign-in' component={Login} />
+
       <RouteWithLayout
         currentUser={currentUser}
         component={Reception}
@@ -26,7 +27,6 @@ const Routes = ({ currentUser }) => {
         layout={MainLayout}
         path='/account'
       />
-
       <RouteWithLayout
         currentUser={currentUser}
         component={NotFound}
@@ -34,9 +34,15 @@ const Routes = ({ currentUser }) => {
         layout={MinimalLayout}
         path='/not-found'
       />
-
+      <RouteWithLayout
+      currentUser={currentUser}
+      component={Examination}
+      exact
+      layout={MainLayout}
+      path='/examination'
+    />
       <Redirect to='/not-found' />
-    </>
+    </Switch>
   );
 };
 

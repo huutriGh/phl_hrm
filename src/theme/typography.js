@@ -39,7 +39,7 @@ export default {
   h6: {
     color: palette.text.primary,
     fontWeight: 500,
-    fontSize: '14px',
+    fontSize: '12px',
     letterSpacing: '-0.05px',
     lineHeight: '20px'
   },
@@ -52,25 +52,25 @@ export default {
   subtitle2: {
     color: palette.text.secondary,
     fontWeight: 400,
-    fontSize: '14px',
+    fontSize: '12px',
     letterSpacing: '-0.05px',
     lineHeight: '21px'
   },
   body1: {
     color: palette.text.primary,
-    fontSize: '14px',
+    fontSize: '12px',
     letterSpacing: '-0.05px',
-    lineHeight: '21px'
+    lineHeight: '15px'
   },
   body2: {
     color: palette.text.secondary,
     fontSize: '12px',
     letterSpacing: '-0.04px',
-    lineHeight: '18px'
+    lineHeight: '12px'
   },
   button: {
     color: palette.text.primary,
-    fontSize: '14px'
+    fontSize: '12px'
   },
   caption: {
     color: palette.text.secondary,

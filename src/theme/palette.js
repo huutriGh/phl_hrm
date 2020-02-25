@@ -8,9 +8,9 @@ export default {
   white,
   primary: {
     contrastText: white,
-    dark: colors.indigo[900],
-    main: colors.indigo[500],
-    light: colors.indigo[100]
+    dark: colors.lightGreen[900],
+    main: colors.lightGreen[500],
+    light: colors.lightGreen[100]
   },
   secondary: {
     contrastText: white,
@@ -35,6 +35,20 @@ export default {
     dark: colors.orange[900],
     main: colors.orange[600],
     light: colors.orange[400]
+  },
+  warningColor: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    color: 'white'
+  },
+  Color: {
+    contrastText: white,
+    dark: colors.orange[900],
+    main: colors.orange[600],
+    light: colors.orange[400]
+  },
+  successColor: {
+    background: 'linear-gradient(45deg, #00c853 30%, #69f0ae 90%)',
+    color: 'white'
   },
   error: {
     contrastText: white,

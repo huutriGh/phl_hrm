@@ -30,30 +30,31 @@ const Main = props => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true
   });
-
-  const [openSidebar, setOpenSidebar] = useState(false);
+  console.log('isdestop:', isDesktop);
+  const [openSidebar, setOpenSidebar] = useState(true);
+  console.log('openSidebar', openSidebar);
 
   const handleSidebarOpen = () => {
-    setOpenSidebar(true);
+    setOpenSidebar(!openSidebar);
   };
 
   const handleSidebarClose = () => {
     setOpenSidebar(false);
   };
 
-  const shouldOpenSidebar = isDesktop ? true : openSidebar;
+  // const shouldOpenSidebar = openSidebar;
 
   return (
     <div
       className={clsx({
         [classes.root]: true,
-        [classes.shiftContent]: isDesktop
+        [classes.shiftContent]: openSidebar && isDesktop
       })}
     >
       <Topbar onSidebarOpen={handleSidebarOpen} />
       <Sidebar
         onClose={handleSidebarClose}
-        open={shouldOpenSidebar}
+        open={openSidebar}
         variant={isDesktop ? 'persistent' : 'temporary'}
       />
       <main className={classes.content}>

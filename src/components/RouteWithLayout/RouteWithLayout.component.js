@@ -8,7 +8,6 @@ const RouteWithLayout = ({
   currentUser,
   ...rest
 }) => {
-  console.log('RouteWithLayout: ', currentUser);
   return (
     <Route
       {...rest}
