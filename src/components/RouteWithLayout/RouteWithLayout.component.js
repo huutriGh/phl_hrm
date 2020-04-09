@@ -11,10 +11,10 @@ const RouteWithLayout = ({
   return (
     <Route
       {...rest}
-      render={matchProps => {
+      render={(matchProps) => {
         return currentUser ? (
           <Layout>
-            <Component {...matchProps} />
+            <Component token={currentUser.token} {...matchProps} />
           </Layout>
         ) : (
           <Redirect to='/sign-in' />
@@ -27,7 +27,7 @@ const RouteWithLayout = ({
 RouteWithLayout.propTypes = {
   component: PropTypes.any.isRequired,
   layout: PropTypes.any.isRequired,
-  path: PropTypes.string
+  path: PropTypes.string,
 };
 
 export default RouteWithLayout;

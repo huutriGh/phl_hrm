@@ -1,396 +1,294 @@
+import { createElement } from '@syncfusion/ej2-base';
+import { DropDownList } from '@syncfusion/ej2-dropdowns';
+import { TextBox } from '@syncfusion/ej2-react-inputs';
 import {
-  AppBar,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Tab,
-  Tabs,
-  TextField,
-  Typography
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
-import PatientListDatatable from './../../components/PatientListDatatable/PatientListDatatable.component';
-import FunctionTabs from './../../components/Tabs/FunctionTabs.component';
+  Agenda,
+  Day,
+  DragAndDrop,
+  Inject,
+  Month,
+  Resize,
+  ScheduleComponent,
+  Week,
+  WorkWeek,
+  TimelineYear,
+  ViewsDirective,
+  ViewDirective,
+} from '@syncfusion/ej2-react-schedule';
+import * as React from 'react';
+import { employeeLeave, GetInputData } from './../../api/componentData.api';
+import { applyCategoryColor } from './../../helpers/helper';
+import './index.css';
+import { SampleBase } from './sample-base';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    flexGrow: 1
-  },
+/**
+ * Schedule editor template sample
+ */
+export default class EditorCustomField extends SampleBase {
+  constructor() {
+    super(...arguments);
+    this.data = employeeLeave(this.props.token);
 
-  paper: {
-    padding: 10
-  },
-  grid: {
-    padding: theme.spacing(2)
-  },
-  gridItem: {
-    display: 'flex',
-    alignContent: 'center'
-  },
-  gridContainer: {
-    marginRight: 0,
-    marginBottom: 8
-  },
-  formControl: {
-    // minWidth: 120
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2)
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
-  title: {
-    flex: '1 1 100%',
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    border: '1px',
-    flex: 1,
-    textAlign: 'center'
-  },
-  radioGroup: {
-    display: 'flex',
-    flexDirection: 'row'
+    this.leaveType = GetInputData('/api/Leave/GetLeaveType', this.props.token);
+    console.log('this.data', this.data);
   }
-}));
 
-const tabFunction = [
-  { label: 'Toa thuốc', component: 'Component' },
-  { label: 'Toa cũ', component: 'Component' },
-  { label: 'Toa màu', component: 'Component' },
-  { label: 'Xét nghiệm', component: 'Component' },
-  { label: 'Chẩn đoán hình ảnh', component: 'Component' }
-];
-const Examination = () => {
-  const classes = useStyles();
-  return (
-    <div className={classes.root}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            <Grid container direction='column' spacing={2}>
-              <Grid item>
-                <TextField
-                  id='date'
-                  label='Ngày khám'
-                  type='date'
-                  fullWidth
-                  // className={classes.textField}
-                  variant='outlined'
-                  size='small'
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  label='Phòng khám'
-                  value='Nội tổng quát'
-                  size='small'
-                  helperText=''
-                  variant='outlined'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  label='Bác sĩ'
-                  value='BS.CKII. Đỗ công thương'
-                  size='small'
-                  helperText=''
-                  variant='outlined'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item>
-                <Typography className={classes.title} variant='h4'>
-                  Danh sách bệnh nhân
-                </Typography>
-              </Grid>
-            </Grid>
-          </Paper>
-          <PatientListDatatable />
-        </Grid>
-        <Grid item xs={8}>
-          <Paper className={classes.paper}>
-            <Grid container spacing={2} className={classes.gridContainer}>
-              <Grid item xs={2}>
-                <TextField
-                  label='Mã barcode'
-                  helperText=''
-                  variant='outlined'
-                  fullWidth
-                  size='small'
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  label='Mã BN'
-                  helperText=''
-                  variant='outlined'
-                  fullWidth
-                  size='small'
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label='Họ tên'
-                  helperText=''
-                  variant='outlined'
-                  fullWidth
-                  size='small'
-                />
-              </Grid>
+  EditorScheduleValidation = {
+    subject: { name: 'Subject', validation: { required: true } },
+    startTime: { name: 'StartTime', validation: { required: true } },
+    endTime: {
+      name: 'EndTime',
+      validation: { required: true },
+    },
+  };
 
-              <Grid item xs={2}>
-                <TextField
-                  label='Phái'
-                  helperText=''
-                  variant='outlined'
-                  fullWidth
-                  size='small'
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  id='date'
-                  label='Ngày sinh'
-                  type='date'
-                  fullWidth
-                  // className={classes.textField}
-                  variant='outlined'
-                  size='small'
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <TextField
-                  label='Số thẻ'
-                  helperText=''
-                  variant='outlined'
-                  fullWidth
-                  size='small'
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  label='Từ ngày'
-                  type='date'
-                  variant='outlined'
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  size='small'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  label='Đến ngày'
-                  type='date'
-                  variant='outlined'
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  size='small'
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} className={classes.gridContainer}>
-              <Grid item xs={1}>
-                <TextField
-                  label='Số nhà'
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  label='Đường'
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  label='Địa chỉ'
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                />
-              </Grid>
+  onPopupOpen(args) {
+    console.log('onPopupOpen: ', args);
+    if (args.type === 'Editor') {
+      // Create required custom elements in initial time
+      if (!args.element.querySelector('.custom-field-row')) {
+        let row = createElement('div', { className: 'custom-field-row' }); // tạo div LV1
+        let formElement = args.element.querySelector('.e-schedule-form');
+        let rowResidence = createElement('div', {
+          className: 'custom-field-row',
+        });
+        let rowLocation = createElement('div', {
+          className: 'custom-field-row',
+          id: 'location-custom-field-row',
+        });
+        let rowTellorEmail = createElement('div', {
+          className: 'custom-field-row',
+        });
+        let rowPersonCover = createElement('div', {
+          className: 'custom-field-row',
+        });
+        formElement.firstChild.insertBefore(
+          rowPersonCover,
+          formElement.firstChild.firstChild
+        );
+        formElement.firstChild.insertBefore(
+          rowTellorEmail,
+          formElement.firstChild.firstChild
+        );
+        formElement.firstChild.insertBefore(
+          rowLocation,
+          formElement.firstChild.firstChild
+        );
+        formElement.firstChild.insertBefore(
+          rowResidence,
+          formElement.firstChild.firstChild
+        );
+        formElement.firstChild.insertBefore(
+          row,
+          formElement.firstChild.firstChild
+        );
+        //===========Add Type Leave Field============================
+        let container = createElement('div', {
+          className: 'custom-field-container',
+        });
+        let inputEle = createElement('input', {
+          className: 'e-field',
+          attrs: { name: 'Subject' },
+        });
+        container.appendChild(inputEle);
+        row.appendChild(container);
+        let drowDownList = new DropDownList({
+          dataSource: this.leaveType,
+          fields: { text: 'Description', value: 'LeaveTypeId' },
+          value: args.data.Subject,
+          floatLabelType: 'Always',
+          placeholder: 'Event Type',
+        });
+        drowDownList.appendTo(inputEle);
+        inputEle.setAttribute('name', 'Subject');
+        //=========Add Type Residence Field================
+        let containerResidence = createElement('div', {
+          className: 'custom-field-container',
+        });
+        let inputResidence = createElement('input', {
+          className: 'e-field',
+          attrs: { name: 'Residence' },
+        });
 
-              <Grid item xs={1}>
-                <TextField
-                  label='Dân tộc'
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  label='Nghề nghiệp'
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} className={classes.gridContainer}>
-              <Grid item xs={12}>
-                <TextField
-                  label='Chẩn đoán chính'
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                  multiline
-                  rowsMax={3}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} className={classes.gridContainer}>
-              <Grid item xs={12}>
-                <TextField
-                  label='Chẩn đoán phụ'
-                  fullWidth
-                  variant='outlined'
-                  size='small'
-                  multiline
-                  rowsMax={3}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} className={classes.gridContainer}>
-              <Grid item xs={3}>
-                <AppBar position='static'>
-                  <Tabs aria-label='simple tabs example' value={0}>
-                    <Tab label='Xử trí' />
-                  </Tabs>
-                </AppBar>
-                <List component='nav' aria-label='main mailbox folders'>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='1. Cấp toa cho về' />
-                  </ListItem>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='2. Chỉ định' />
-                  </ListItem>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='3. Không toa' />
-                  </ListItem>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='4. Nhập viện' />
-                  </ListItem>
-                </List>
-                <Divider />
-              </Grid>
-              <Grid item xs={3}>
-                <AppBar position='static'>
-                  <Tabs aria-label='simple tabs example' value={0}>
-                    <Tab label='Lịch sử khám' />
-                  </Tabs>
-                </AppBar>
-                <List component='nav' aria-label='main mailbox folders'>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='13/08/2019' />
-                  </ListItem>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='22/12/2019' />
-                  </ListItem>
-                  <Divider />
-                </List>
-              </Grid>
-              <Grid item xs={3}>
-                <AppBar position='static'>
-                  <Tabs aria-label='simple tabs example' value={0}>
-                    <Tab label='Dấu hiệu sinh tồn' />
-                  </Tabs>
-                </AppBar>
-                <List component='nav' aria-label='main mailbox folders'>
-                  <Divider />
-                  <ListItem>
-                    <TextField label='Mạch' size='small' variant='outlined' />
-                  </ListItem>
+        let dropdownResidence = new DropDownList({
+          dataSource: [
+            { text: 'Place of residence', value: 'residence' },
+            { text: 'Travel out of residence', value: 'OutOfresidence' },
+          ],
+          fields: { text: 'text', value: 'value' },
+          value: args.data.Residence,
+          floatLabelType: 'Always',
+          placeholder: 'Residence',
+          change: this.onDataBound.bind(this),
+        });
+        containerResidence.appendChild(inputResidence);
+        rowResidence.appendChild(containerResidence);
+        inputResidence.setAttribute('name', 'Residence');
+        inputResidence.setAttribute('id', 'residence');
+        dropdownResidence.appendTo(inputResidence);
+        //========Add Where of Residence ===========
+        let containerLocation = createElement('div', {
+          className: 'custom-field-container',
+        });
+        let inputLocation = createElement('input', {
+          className: 'e-field e-input',
+          attrs: { name: 'Location' },
+        });
 
-                  <ListItem>
-                    <TextField
-                      label='Huyết áp'
-                      size='small'
-                      variant='outlined'
-                    />
-                  </ListItem>
+        let textLocation = new TextBox({
+          placeholder: 'To',
+          floatLabelType: 'Always',
+          value: args.data.cLocation,
+        });
+        containerLocation.appendChild(inputLocation);
+        rowLocation.appendChild(containerLocation);
+        inputLocation.setAttribute('name', 'cLocation');
+        inputLocation.setAttribute('id', 'cLocation');
+        textLocation.appendTo(inputLocation);
+        if (args.data.cLocation) {
+          document.getElementById('location-custom-field-row').style.display =
+            'block';
+        }
+        //========Add Where of TellOrEmail ===========
+        let containerTellOrEmail = createElement('div', {
+          className: 'custom-field-container',
+        });
+        let inputTellOrEmail = createElement('input', {
+          className: 'e-field e-input',
+          attrs: { name: 'TellOrEmail' },
+        });
 
-                  <ListItem>
-                    <TextField label='BMI' size='small' variant='outlined' />
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid item xs={3}>
-                <AppBar position='static'>
-                  <Tabs aria-label='simple tabs example' value={0}>
-                    <Tab label='Kho thuốc' />
-                  </Tabs>
-                </AppBar>
-                <List component='nav' aria-label='main mailbox folders'>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='Bảo hiểm y tế' />
-                  </ListItem>
-                  <Divider />
-                  <ListItem button>
-                    <ListItemText primary='Dịch vụ' />
-                  </ListItem>
-                  <Divider />
-                </List>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  value='Hạn bảo hiểm y tế còn 262 ngày'
-                  variant='outlined'
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  size='small'
-                  fullWidth
+        let textTellOrEmail = new TextBox({
+          placeholder: 'Tell Or Email',
+          floatLabelType: 'Always',
+          value: args.data.TellOrEmail,
+        });
+        containerTellOrEmail.appendChild(inputTellOrEmail);
+        rowTellorEmail.appendChild(containerTellOrEmail);
+        inputTellOrEmail.setAttribute('name', 'TellOrEmail');
+        inputTellOrEmail.setAttribute('id', 'TellOrEmail');
+        textTellOrEmail.appendTo(inputTellOrEmail);
+        //========Add Where of rowPersonCover ===========
+        let containerPersonCover = createElement('div', {
+          className: 'custom-field-container',
+        });
+        let inputPersonCover = createElement('input', {
+          className: 'e-field e-input',
+          attrs: { name: 'PersonCover' },
+        });
+
+        let textPersonCover = new TextBox({
+          placeholder: 'Person cover',
+          floatLabelType: 'Always',
+          value: args.data.PersonCover,
+        });
+        containerPersonCover.appendChild(inputPersonCover);
+        rowPersonCover.appendChild(containerPersonCover);
+        inputPersonCover.setAttribute('name', 'PersonCover');
+        inputPersonCover.setAttribute('id', 'PersonCover');
+        textPersonCover.appendTo(inputPersonCover);
+        //========Remove Title anh Location Default
+        let title_location = document.querySelector('.e-title-location-row');
+        title_location.remove();
+
+        //=======Add validation for custom field
+        // let formElement = args.element.querySelector('.e-schedule-form');
+        let validator = formElement.ej2_instances[0];
+        validator.addRules('Residence', {
+          required: [true, 'This field is required'],
+        });
+      }
+    }
+  }
+  onEventRendered(args) {
+    applyCategoryColor(args, this.scheduleObj.currentView);
+  }
+
+  onDataBound(args) {
+    var sch = document.querySelector('#residence').ej2_instances[0];
+    let formElement = document.querySelector('.e-schedule-form');
+    let validator = formElement.ej2_instances[0];
+    if (sch.itemData) {
+      if (sch.itemData.value === 'OutOfresidence') {
+        document.getElementById('location-custom-field-row').style.display =
+          'block';
+        validator.addRules('cLocation', {
+          required: [true, 'This field is required'],
+        });
+        validator.rules['cLocation'] = {
+          required: [true, 'This field is required'],
+        };
+        console.log('validatorOnDataBoundAterAdd', validator);
+      } else {
+        validator.rules['cLocation'] = undefined;
+
+        document.getElementById('location-custom-field-row').style.display =
+          'none';
+        document.querySelector('#cLocation').ej2_instances[0].value = null;
+      }
+    } else {
+      document.getElementById('location-custom-field-row').style.display =
+        'none';
+
+      document.querySelector('#cLocation').ej2_instances[0].value = null;
+    }
+    console.log('onDataBound:', args);
+  }
+  onActionCompleted(args) {
+    console.log('args:', args);
+  }
+  onEventClick(args) {
+    console.log('onEventClick: ', args);
+  }
+  render() {
+    return (
+      <div className='schedule-control-section'>
+        <div className='col-lg-12 control-section'>
+          <div className='control-wrapper'>
+            <ScheduleComponent
+              width='100%'
+              height='650px'
+              selectedDate={new Date()}
+              ref={(t) => (this.scheduleObj = t)}
+              eventSettings={{
+                dataSource: this.data,
+                fields: this.EditorScheduleValidation,
+                enableTooltip: true,
+              }}
+              popupOpen={this.onPopupOpen.bind(this)}
+              eventRendered={this.onEventRendered.bind(this)}
+              actionComplete={this.onActionCompleted.bind(this)}
+              eventClick={this.onEventClick.bind(this)}
+              startHour='08:00'
+              endHour='17:30'
+              workHours={{ start: '08:00' }}
+              showQuickInfo={false}
+            >
+              <ViewsDirective>
+                <ViewDirective
+                  option='TimelineYear'
+                  displayName='Horizontal Year'
                 />
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <FunctionTabs tab={tabFunction} />
-        </Grid>
-      </Grid>
-    </div>
-  );
-};
-
-export default Examination;
+                <ViewDirective option='Month' displayName='Month' />
+                <ViewDirective option='Week' displayName='Week' />
+                <ViewDirective option='WorkWeek' displayName='WorkWeek' />
+              </ViewsDirective>
+              <Inject
+                services={[
+                  Day,
+                  Week,
+                  WorkWeek,
+                  Month,
+                  Agenda,
+                  TimelineYear,
+                  Resize,
+                  DragAndDrop,
+                ]}
+              />
+            </ScheduleComponent>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}

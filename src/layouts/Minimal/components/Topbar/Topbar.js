@@ -7,11 +7,11 @@ import { AppBar, Toolbar } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
-    boxShadow: 'none'
-  }
+    boxShadow: 'none',
+  },
 }));
 
-const Topbar = props => {
+const Topbar = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -20,14 +20,16 @@ const Topbar = props => {
     <AppBar
       {...rest}
       className={clsx(classes.root, className)}
-      color="primary"
-      position="fixed"
+      color='primary'
+      position='fixed'
     >
       <Toolbar>
-        <RouterLink to="/">
+        <RouterLink to='/'>
           <img
-            alt="Logo"
-            src="/images/logos/logo--white.svg"
+            alt='Logo'
+            src='/images/logos/Logo_PHL.png'
+            width='185px'
+            height='45px'
           />
         </RouterLink>
       </Toolbar>
@@ -36,7 +38,7 @@ const Topbar = props => {
 };
 
 Topbar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default Topbar;

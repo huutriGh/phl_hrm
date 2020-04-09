@@ -30,9 +30,7 @@ const Main = props => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true
   });
-  console.log('isdestop:', isDesktop);
   const [openSidebar, setOpenSidebar] = useState(true);
-  console.log('openSidebar', openSidebar);
 
   const handleSidebarOpen = () => {
     setOpenSidebar(!openSidebar);
@@ -41,9 +39,6 @@ const Main = props => {
   const handleSidebarClose = () => {
     setOpenSidebar(false);
   };
-
-  // const shouldOpenSidebar = openSidebar;
-
   return (
     <div
       className={clsx({

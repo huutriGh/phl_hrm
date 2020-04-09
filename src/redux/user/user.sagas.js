@@ -4,14 +4,10 @@ import {
   signInFailure,
   signInSuccess,
   signOutFailure,
-  signOutSuccess
+  signOutSuccess,
 } from './user.actions';
 import UserActionTypes from './user.types';
 
-// const response = await claimAPI.post('/authenticate', {
-//   policyNumber,
-//   idNumber,
-// });
 export function* getSnapshotFromUserAuth(userAuth, additionalData) {
   try {
     yield put(signInSuccess(userAuth));
@@ -24,10 +20,13 @@ export function* signInWithUser({ payload: { userName, password } }) {
   try {
     const res = yield call(login, { userName, password });
     const user = {
-      userName: userName,
-      token: res.data.accessToken.token,
-      expiresIn: res.data.accessToken.expiresIn,
-      refreshToken: res.data.refreshToken
+      userId: res.data.userId,
+      userName: res.data.userName,
+      token: res.data.access_token,
+      expiresIn: res.data.expires_in,
+      userFuntion: res.data.userFuntion,
+      UserPage: res.data.userPage,
+      //  refreshToken: res.data.refreshToken
     };
     yield put(signInSuccess(user));
   } catch (error) {
@@ -68,6 +67,6 @@ export function* userSagas() {
   yield all([
     call(onSignInStart),
     call(checkUserSession),
-    call(onSignOutStart)
+    call(onSignOutStart),
   ]);
 }

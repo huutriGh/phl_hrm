@@ -1,12 +1,12 @@
 import React from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import RouteWithLayout from './components/RouteWithLayout/RouteWithLayout.component';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
-import Account from './pages/Account/Account.component';
+import Examination from './pages/Examnination/Examination.conponent';
 import Login from './pages/login/login.component';
 import NotFound from './pages/NotFound/NotFound.component';
-import Reception from './pages/Reception/Reception.component';
-import Examination from './pages/Examnination/Examination.conponent';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Approve from './pages/Approve/Approve';
 
 const Routes = ({ currentUser }) => {
   return (
@@ -15,17 +15,10 @@ const Routes = ({ currentUser }) => {
 
       <RouteWithLayout
         currentUser={currentUser}
-        component={Reception}
+        component={Dashboard}
         exact
         layout={MainLayout}
         path='/'
-      />
-      <RouteWithLayout
-        currentUser={currentUser}
-        component={Account}
-        exact
-        layout={MainLayout}
-        path='/account'
       />
       <RouteWithLayout
         currentUser={currentUser}
@@ -35,12 +28,19 @@ const Routes = ({ currentUser }) => {
         path='/not-found'
       />
       <RouteWithLayout
-      currentUser={currentUser}
-      component={Examination}
-      exact
-      layout={MainLayout}
-      path='/examination'
-    />
+        currentUser={currentUser}
+        component={Examination}
+        exact
+        layout={MainLayout}
+        path='/examination'
+      />
+      <RouteWithLayout
+        currentUser={currentUser}
+        component={Approve}
+        exact
+        layout={MainLayout}
+        path='/approve'
+      />
       <Redirect to='/not-found' />
     </Switch>
   );

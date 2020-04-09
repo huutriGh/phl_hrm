@@ -1,0 +1,37 @@
+#EventLog b {
+  color: #388e3c;
+}
+
+hr {
+  margin: 1px 10px 1px 0px;
+  border-top: 1px solid #eee;
+}
+
+.e-schedule .e-schedule-toolbar .e-icon-schedule-print::before {
+  content: '\e973';
+}
+
+.e-schedule .e-schedule-toolbar .e-icon-schedule-pdf::before {
+  content: '\e7c8';
+}
+
+.custom-field-row {
+  margin-bottom: 20px;
+}
+
+.multi-prop div {
+  padding-left: 0;
+  padding-top: 0;
+}
+.e-dialog-parent .e-description-row{
+  display: none;
+}
+.e-control .e-recurrenceeditor .e-lib{
+ display: none;
+}
+.e-time-zone-container,#location-custom-field-row{
+  display: none;
+}
+#Subject_Error, #Residence_Error {
+  left: 100px !important;
+}
