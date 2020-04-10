@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = (props) => {
-  console.log(props);
+  
   const { className, currentUser, dispatch, ...rest } = props;
 
   const classes = useStyles();

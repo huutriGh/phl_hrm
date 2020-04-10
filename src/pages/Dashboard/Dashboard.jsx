@@ -78,7 +78,7 @@ export default class Dashboard extends React.Component {
                 ></ResourceDirective>
               </ResourcesDirective>
               <ViewsDirective>
-                <ViewDirective option='TimelineWorkWeek' />
+             
                 <ViewDirective option='TimelineWeek' />
                 <ViewDirective option='TimelineMonth' />
                 <ViewDirective option='Agenda' />

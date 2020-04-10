@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://localhost:44358'
+  baseURL: 'https://localhost:44358',
 });
 
 instance.interceptors.request.use(
-  async config => {
+  async (config) => {
     const user = await sessionStorage.getItem('persist:root');
-    if (user.currentUser) {
-      const currentUser = JSON.parse(JSON.parse(user).user).currentUser;
+    const currentUser = JSON.parse(JSON.parse(user).user).currentUser;
+    if (currentUser) {
       config.headers.Authorization = `Bearer ${
         currentUser.token ? currentUser.token : ''
       }`;
@@ -16,7 +16,7 @@ instance.interceptors.request.use(
 
     return config;
   },
-  err => {
+  (err) => {
     return Promise.reject(err);
   }
 );

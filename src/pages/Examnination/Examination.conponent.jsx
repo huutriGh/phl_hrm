@@ -30,11 +30,19 @@ export default class EditorCustomField extends SampleBase {
     this.data = employeeLeave(this.props.token);
 
     this.leaveType = GetInputData('/api/Leave/GetLeaveType', this.props.token);
-    console.log('this.data', this.data);
   }
 
   EditorScheduleValidation = {
-    subject: { name: 'Subject', validation: { required: true } },
+    subject: {
+      name: 'Subject',
+      validation: {
+        required: true,
+        regex: [
+          '^[a-zA-Z0-9- ]*$',
+          'Special character(s) not allowed in this field',
+        ],
+      },
+    },
     startTime: { name: 'StartTime', validation: { required: true } },
     endTime: {
       name: 'EndTime',
@@ -43,7 +51,6 @@ export default class EditorCustomField extends SampleBase {
   };
 
   onPopupOpen(args) {
-    console.log('onPopupOpen: ', args);
     if (args.type === 'Editor') {
       // Create required custom elements in initial time
       if (!args.element.querySelector('.custom-field-row')) {
@@ -197,6 +204,7 @@ export default class EditorCustomField extends SampleBase {
         validator.addRules('Residence', {
           required: [true, 'This field is required'],
         });
+      
       }
     }
   }
@@ -218,7 +226,6 @@ export default class EditorCustomField extends SampleBase {
         validator.rules['cLocation'] = {
           required: [true, 'This field is required'],
         };
-        console.log('validatorOnDataBoundAterAdd', validator);
       } else {
         validator.rules['cLocation'] = undefined;
 
@@ -232,14 +239,9 @@ export default class EditorCustomField extends SampleBase {
 
       document.querySelector('#cLocation').ej2_instances[0].value = null;
     }
-    console.log('onDataBound:', args);
   }
-  onActionCompleted(args) {
-    console.log('args:', args);
-  }
-  onEventClick(args) {
-    console.log('onEventClick: ', args);
-  }
+  onActionCompleted(args) {}
+  onEventClick(args) {}
   render() {
     return (
       <div className='schedule-control-section'>
