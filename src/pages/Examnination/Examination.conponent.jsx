@@ -9,6 +9,7 @@ import {
   Month,
   Resize,
   ScheduleComponent,
+  TimelineMonth,
   Week,
   WorkWeek,
   TimelineYear,
@@ -204,7 +205,6 @@ export default class EditorCustomField extends SampleBase {
         validator.addRules('Residence', {
           required: [true, 'This field is required'],
         });
-      
       }
     }
   }
@@ -265,21 +265,19 @@ export default class EditorCustomField extends SampleBase {
               endHour='17:30'
               workHours={{ start: '08:00' }}
               showQuickInfo={false}
+              currentView='Month'
             >
               <ViewsDirective>
-                <ViewDirective
-                  option='TimelineYear'
-                  displayName='Horizontal Year'
-                />
-                <ViewDirective option='Month' displayName='Month' />
                 <ViewDirective option='Week' displayName='Week' />
-                <ViewDirective option='WorkWeek' displayName='WorkWeek' />
+                <ViewDirective option='Month' displayName='Month' />
+                <ViewDirective option='TimelineYear' displayName='Year' />
               </ViewsDirective>
               <Inject
                 services={[
                   Day,
                   Week,
                   WorkWeek,
+                  TimelineMonth,
                   Month,
                   Agenda,
                   TimelineYear,

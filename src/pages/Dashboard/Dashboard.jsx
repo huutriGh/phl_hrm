@@ -31,11 +31,12 @@ export default class Dashboard extends React.Component {
       this.props.token
     );
     this.data = GetInputData(
-      '/api/EmployeeLeave/GetEmployeeLeave',
+      '/api/EmployeeLeave/GetEmployeeLeaveDashBoard',
       this.props.token,
       true
     );
   }
+
   render() {
     return (
       <div className='schedule-control-section'>
@@ -65,6 +66,7 @@ export default class Dashboard extends React.Component {
                   dataSource={this.Departmentdata}
                   textField='DepartmentName'
                   idField='DepartmentID'
+                  colorField='Color'
                 ></ResourceDirective>
                 <ResourceDirective
                   field='BusinessEntityID'
@@ -75,10 +77,10 @@ export default class Dashboard extends React.Component {
                   textField='EmployeeName'
                   idField='BusinessEntityID'
                   groupIDField='DepartmentID'
+                  colorField='Color'
                 ></ResourceDirective>
               </ResourcesDirective>
               <ViewsDirective>
-             
                 <ViewDirective option='TimelineWeek' />
                 <ViewDirective option='TimelineMonth' />
                 <ViewDirective option='Agenda' />
