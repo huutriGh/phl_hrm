@@ -119,7 +119,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = (props) => {
-  console.log('login props:', props);
   const { signInWithUser, currentUser } = props;
   const classes = useStyles();
 
@@ -200,17 +199,9 @@ const SignIn = (props) => {
             <div className={classes.contentBody}>
               <form className={classes.form} onSubmit={handleSignIn}>
                 <Typography className={classes.title} variant='h2'>
-                  Đăng nhập
+                  Sign in
                 </Typography>
-                <Typography color='textSecondary' gutterBottom>
-                  Đăng nhập vào tài khoản của bạn
-                </Typography>
-                <Typography
-                  align='center'
-                  className={classes.sugestion}
-                  color='textSecondary'
-                  variant='body1'
-                ></Typography>
+                
                 <TextField
                   className={classes.textField}
                   error={hasError('user')}
@@ -248,7 +239,7 @@ const SignIn = (props) => {
                   type='submit'
                   variant='contained'
                 >
-                  Đăng nhập
+                  SIGN IN NOW
                 </Button>
                 {/*
                   <Typography color='textSecondary' variant='body1'>

@@ -67,6 +67,12 @@
   color: #63ba3c;
   font-size: 16px;
 }
+.kanban-overview.e-kanban .Rejected::before {
+  content: '\2573';
+  color: #cc0000;
+  font-size: 16px;
+ 
+}
 
 .kanban-overview.e-kanban .e-card .e-card-tag {
   background: #ececec;

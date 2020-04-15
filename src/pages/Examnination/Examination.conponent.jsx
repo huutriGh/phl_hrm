@@ -1,6 +1,7 @@
 import { createElement } from '@syncfusion/ej2-base';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
 import { TextBox } from '@syncfusion/ej2-react-inputs';
+import { ToastComponent } from '@syncfusion/ej2-react-notifications';
 import {
   Agenda,
   Day,
@@ -10,27 +11,25 @@ import {
   Resize,
   ScheduleComponent,
   TimelineMonth,
+  TimelineYear,
+  ViewDirective,
+  ViewsDirective,
   Week,
   WorkWeek,
-  TimelineYear,
-  ViewsDirective,
-  ViewDirective,
 } from '@syncfusion/ej2-react-schedule';
 import * as React from 'react';
 import { employeeLeave, GetInputData } from './../../api/componentData.api';
 import { applyCategoryColor } from './../../helpers/helper';
 import './index.css';
-import { SampleBase } from './sample-base';
-
 /**
  * Schedule editor template sample
  */
-export default class EditorCustomField extends SampleBase {
+export default class EditorCustomField extends React.Component {
   constructor() {
     super(...arguments);
     this.data = employeeLeave(this.props.token);
-
     this.leaveType = GetInputData('/api/Leave/GetLeaveType', this.props.token);
+    this.position = { X: 'Right' };
   }
 
   EditorScheduleValidation = {
@@ -211,7 +210,16 @@ export default class EditorCustomField extends SampleBase {
   onEventRendered(args) {
     applyCategoryColor(args, this.scheduleObj.currentView);
   }
-
+  onFailure = (args) => {
+    const errorMessage = args.error[0].error.responseText;
+    console.log(errorMessage);
+    this.toastObj.show({
+      title: 'Warning!',
+      content: errorMessage,
+      cssClass: 'e-toast-warning',
+      icon: 'e-warning toast-icons',
+    });
+  };
   onDataBound(args) {
     var sch = document.querySelector('#residence').ej2_instances[0];
     let formElement = document.querySelector('.e-schedule-form');
@@ -245,12 +253,24 @@ export default class EditorCustomField extends SampleBase {
   render() {
     return (
       <div className='schedule-control-section'>
-        <div className='col-lg-12 control-section'>
+        <div className='col-lg-9 control-section'>
+          <div className='col-lg-12 control-section toast-type-section'>
+            <div className='e-sample-resize-container'>
+              <ToastComponent
+                ref={(toast) => {
+                  this.toastObj = toast;
+                }}
+                id='toast_type'
+                position={this.position}
+              ></ToastComponent>
+            </div>
+          </div>
           <div className='control-wrapper'>
             <ScheduleComponent
               width='100%'
               height='650px'
               selectedDate={new Date()}
+              
               ref={(t) => (this.scheduleObj = t)}
               eventSettings={{
                 dataSource: this.data,
@@ -261,6 +281,7 @@ export default class EditorCustomField extends SampleBase {
               eventRendered={this.onEventRendered.bind(this)}
               actionComplete={this.onActionCompleted.bind(this)}
               eventClick={this.onEventClick.bind(this)}
+              actionFailure={this.onFailure}
               startHour='08:00'
               endHour='17:30'
               workHours={{ start: '08:00' }}
@@ -268,8 +289,11 @@ export default class EditorCustomField extends SampleBase {
               currentView='Month'
             >
               <ViewsDirective>
-                <ViewDirective option='Week' displayName='Week' />
-                <ViewDirective option='Month' displayName='Month' />
+                <ViewDirective option='Day' />
+                <ViewDirective option='Week' />
+                <ViewDirective option='WorkWeek' />
+                <ViewDirective option='Month' />
+
                 <ViewDirective option='TimelineYear' displayName='Year' />
               </ViewsDirective>
               <Inject
@@ -277,7 +301,7 @@ export default class EditorCustomField extends SampleBase {
                   Day,
                   Week,
                   WorkWeek,
-                  TimelineMonth,
+
                   Month,
                   Agenda,
                   TimelineYear,

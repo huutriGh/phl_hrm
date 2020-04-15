@@ -7,7 +7,7 @@ import { Typography, Link } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),
-    position: 'fixed',
+    position: 'relatived',
     left: 0,
     bottom: 0,
     width: '100%',
@@ -28,7 +28,8 @@ const Footer = (props) => {
         </Link>
       </Typography>
       <Typography variant='caption'>
-        Tầng 5, CR3 - 05A, 109 Tôn Dật Tiên, Phường Tân Phú, Quận 7, TP. HCM
+        5th Floor, CR3 - 05A, 109 Ton Dat Tien Street, Tan Phu Ward, District 7,
+        HCMC
       </Typography>
     </div>
   );

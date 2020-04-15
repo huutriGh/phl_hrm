@@ -1,25 +1,20 @@
-// import { render } from 'react-dom';
 import { Paper } from '@material-ui/core';
 import {
   ColumnDirective,
   ColumnsDirective,
   KanbanComponent,
 } from '@syncfusion/ej2-react-kanban';
-import * as React from 'react';
+import { ToastComponent } from '@syncfusion/ej2-react-notifications';
+import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-// import { SampleBase } from './sample-base';
-// import * as dataSource from './datasource.json';
-import { leavePendingApprove } from './../../api/componentData.api';
-import { loadDataStart } from './../../redux/leaveStatus/leaveStatus.actions';
-import { selectCurrentLeaveStatus } from './../../redux/leaveStatus/leaveStatus.selectors';
-import './index.css';
-import { ToastComponent } from '@syncfusion/ej2-react-notifications';
 import { selectUserFunction } from '../../redux/user/user.selectors';
-/**
- * Kanban Overview sample
- */
-class Test extends React.Component {
+import { leavePendingApprove } from '../../api/componentData.api';
+import { loadDataStart } from '../../redux/leaveStatus/leaveStatus.actions';
+import { selectCurrentLeaveStatus } from '../../redux/leaveStatus/leaveStatus.selectors';
+import './index.css';
+
+class Kanban extends React.Component {
   constructor() {
     super(...arguments);
     this.position = { X: 'Right' };
@@ -69,39 +64,48 @@ class Test extends React.Component {
     return assignee.split(']')[1].match(/[A-Z]/g).join('').toUpperCase();
   }
 
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   console.log('nextprop:', nextProps);
-  //   this.setState({ leaveStatus: nextProps.leaveStatus.leaveStatus });
-
-  //   this.forceUpdate();
-  // }
-
   OnActionBegin(args) {
     console.log('OnActionBegin', args);
   }
   OndialogOpen = (args) => {
+    const userFunc = JSON.parse(this.props.userFuntion);
+    console.log('props', userFunc);
+    let func = 'Applied|Created';
+    if (userFunc.find((f) => f === 'F1')) {
+      func += '|Approved';
+    }
+    if (userFunc.find((f) => f === 'F2')) {
+      func += '|Verified';
+    }
+    if (userFunc.find((f) => f === 'F3')) {
+      func += '|Rejected';
+    }
+
     let formElement = args.element.querySelector('.e-kanban-form');
-    console.log(formElement);
+
     let validator = formElement.ej2_instances[0];
     validator.rules['Status'] = {
       regex: [
-        '^(Applied|Created)$',
-        'Perrmission is deny. You can only choose Applied or Created',
+        `^(${func})$`,
+        `Perrmission is deny. You can only choose ${func}`,
       ],
     };
+    console.log(validator);
     document.getElementsByName('RankId').readOnly = true;
   };
 
   onFailure = (args) => {
-    console.log('Onfailure:', args);
     const errorMessage = args.error[0].error.responseText;
-    console.log('errorMessage', errorMessage);
     this.toastObj.show({
       title: 'Warning!',
       content: errorMessage,
       cssClass: 'e-toast-warning',
       icon: 'e-warning toast-icons',
     });
+  };
+
+  onDatabound = () => {
+    console.log('databoundcalled');
   };
 
   render() {
@@ -116,9 +120,6 @@ class Test extends React.Component {
               }}
               id='toast_type'
               position={this.position}
-              // created={this.create.bind(this)}
-              // close={this.onclose.bind(this)}
-              // beforeOpen={this.onbeforeOpen.bind(this)}
             ></ToastComponent>
           </div>
         </div>
@@ -139,6 +140,7 @@ class Test extends React.Component {
           actionBegin={this.OnActionBegin}
           dialogOpen={this.OndialogOpen}
           actionFailure={this.onFailure}
+          dataBound={this.onDatabound}
         >
           <ColumnsDirective>
             {this.props.leaveStatus
@@ -168,4 +170,4 @@ const mapStateToprops = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   loadLeaveStatus: () => dispatch(loadDataStart()),
 });
-export default connect(mapStateToprops, mapDispatchToProps)(Test);
+export default connect(mapStateToprops, mapDispatchToProps)(Kanban);

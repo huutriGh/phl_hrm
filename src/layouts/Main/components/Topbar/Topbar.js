@@ -6,24 +6,26 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { signOutStart } from './../../../../redux/user/user.actions';
+import { connect } from 'react-redux';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    boxShadow: 'none'
+    boxShadow: 'none',
   },
   flexGrow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   signOutButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
   },
   menuIcon: {
-    marginRight: '20px'
-  }
+    marginRight: '20px',
+  },
 }));
 
-const Topbar = props => {
-  const { className, onSidebarOpen, ...rest } = props;
+const Topbar = (props) => {
+  const { className, onSidebarOpen, signOut, ...rest } = props;
 
   const classes = useStyles();
 
@@ -38,12 +40,21 @@ const Topbar = props => {
           <MenuIcon />
         </IconButton>
         <RouterLink to='/'>
-          <img alt='Logo' src='/images/logos/Logo_PHL.png' width = '185px' height = '45px' />
+          <img
+            alt='Logo'
+            src='/images/logos/Logo_PHL.png'
+            width='185px'
+            height='45px'
+          />
         </RouterLink>
 
         <div className={classes.flexGrow} />
 
-        <IconButton className={classes.signOutButton} color='inherit'>
+        <IconButton
+          className={classes.signOutButton}
+          color='inherit'
+          onClick={signOut}
+        >
           <InputIcon />
         </IconButton>
       </Toolbar>
@@ -53,7 +64,11 @@ const Topbar = props => {
 
 Topbar.propTypes = {
   className: PropTypes.string,
-  onSidebarOpen: PropTypes.func
+  onSidebarOpen: PropTypes.func,
 };
 
-export default Topbar;
+const mapDispatchToProps = (dispatch) => ({
+  signOut: () => dispatch(signOutStart()),
+});
+
+export default connect(null, mapDispatchToProps)(Topbar);
