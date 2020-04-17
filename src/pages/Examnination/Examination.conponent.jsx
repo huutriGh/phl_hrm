@@ -2,6 +2,7 @@ import { createElement } from '@syncfusion/ej2-base';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
 import { TextBox } from '@syncfusion/ej2-react-inputs';
 import { ToastComponent } from '@syncfusion/ej2-react-notifications';
+
 import {
   Agenda,
   Day,
@@ -10,7 +11,6 @@ import {
   Month,
   Resize,
   ScheduleComponent,
-  TimelineMonth,
   TimelineYear,
   ViewDirective,
   ViewsDirective,
@@ -21,6 +21,8 @@ import * as React from 'react';
 import { employeeLeave, GetInputData } from './../../api/componentData.api';
 import { applyCategoryColor } from './../../helpers/helper';
 import './index.css';
+import RemainingHours from './RemainingHours';
+
 /**
  * Schedule editor template sample
  */
@@ -254,23 +256,22 @@ export default class EditorCustomField extends React.Component {
     return (
       <div className='schedule-control-section'>
         <div className='col-lg-9 control-section'>
-          <div className='col-lg-12 control-section toast-type-section'>
-            <div className='e-sample-resize-container'>
-              <ToastComponent
-                ref={(toast) => {
-                  this.toastObj = toast;
-                }}
-                id='toast_type'
-                position={this.position}
-              ></ToastComponent>
-            </div>
-          </div>
           <div className='control-wrapper'>
+            <div className='col-lg-9 control-section toast-type-section'>
+              <div className='e-sample-resize-container'>
+                <ToastComponent
+                  ref={(toast) => {
+                    this.toastObj = toast;
+                  }}
+                  id='toast_type'
+                  position={this.position}
+                ></ToastComponent>
+              </div>
+            </div>
             <ScheduleComponent
               width='100%'
-              height='650px'
+              height='555px'
               selectedDate={new Date()}
-              
               ref={(t) => (this.scheduleObj = t)}
               eventSettings={{
                 dataSource: this.data,
@@ -287,6 +288,7 @@ export default class EditorCustomField extends React.Component {
               workHours={{ start: '08:00' }}
               showQuickInfo={false}
               currentView='Month'
+              timezone='UTC'
             >
               <ViewsDirective>
                 <ViewDirective option='Day' />
@@ -301,7 +303,6 @@ export default class EditorCustomField extends React.Component {
                   Day,
                   Week,
                   WorkWeek,
-
                   Month,
                   Agenda,
                   TimelineYear,
@@ -312,6 +313,7 @@ export default class EditorCustomField extends React.Component {
             </ScheduleComponent>
           </div>
         </div>
+        <RemainingHours />
       </div>
     );
   }

@@ -56,6 +56,7 @@ export default class Dashboard extends React.Component {
               endHour='17:30'
               workHours={{ start: '08:00' }}
               group={{ resources: ['DepartmentGroup', 'EmployeeGroup'] }}
+              timezone='UTC'
             >
               <ResourcesDirective>
                 <ResourceDirective

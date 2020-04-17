@@ -20,3 +20,6 @@ export const loadLeaveType = async () => {
 export const loadLeaveStatus = async () => {
   return await api.get('api/Leave/GetLeaveStatus');
 };
+export const loadRemainingHours = async () => {
+  return await api.get('api/Employee/EmployeeLeaveRemainingHours');
+};

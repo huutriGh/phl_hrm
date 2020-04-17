@@ -4,6 +4,7 @@ import sessionStorage from 'redux-persist/lib/storage/session';
 import leaveTypeReducer from './leaveType/leaveType.reducer';
 import leaveStatusReducer from './leaveStatus/leaveStatus.reducer';
 import userReducer from './user/user.reducer';
+import employeeReducer from './employee/employee.reducer'
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   user: userReducer,
+  employee: employeeReducer,
   leaveType: leaveTypeReducer,
   leaveStatus: leaveStatusReducer
 });

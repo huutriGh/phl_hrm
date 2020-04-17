@@ -22,15 +22,17 @@ const Footer = (props) => {
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
-      <Typography variant='body1'>
-        <Link component='a' href='https://www.phuhunglife.com/' target='_blank'>
-          PHU HUNG LIFE
-        </Link>
-      </Typography>
-      <Typography variant='caption'>
-        5th Floor, CR3 - 05A, 109 Ton Dat Tien Street, Tan Phu Ward, District 7,
-        HCMC
-      </Typography>
+      {
+        // <Typography variant='body1'>
+        //   <Link component='a' href='https://www.phuhunglife.com/' target='_blank'>
+        //     PHU HUNG LIFE
+        //   </Link>
+        // </Typography>
+        // <Typography variant='caption'>
+        //   5th Floor, CR3 - 05A, 109 Ton Dat Tien Street, Tan Phu Ward, District 7,
+        //   HCMC
+        // </Typography>
+      }
     </div>
   );
 };
