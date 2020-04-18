@@ -18,15 +18,15 @@ import {
   WorkWeek,
 } from '@syncfusion/ej2-react-schedule';
 import * as React from 'react';
-import { employeeLeave, GetInputData } from './../../api/componentData.api';
-import { applyCategoryColor } from './../../helpers/helper';
+import { employeeLeave, GetInputData } from '../../api/componentData.api';
+import { applyCategoryColor } from '../../helpers/helper';
 import './index.css';
 import RemainingHours from './RemainingHours';
 
 /**
  * Schedule editor template sample
  */
-export default class EditorCustomField extends React.Component {
+export default class Leave extends React.Component {
   constructor() {
     super(...arguments);
     this.data = employeeLeave(this.props.token);

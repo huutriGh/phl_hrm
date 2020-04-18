@@ -90,7 +90,7 @@ class Kanban extends React.Component {
         `Perrmission is deny. You can only choose ${func}`,
       ],
     };
-    console.log(validator);
+
     document.getElementsByName('RankId').readOnly = true;
   };
 
@@ -104,12 +104,9 @@ class Kanban extends React.Component {
     });
   };
 
-  onDatabound = () => {
-    console.log('databoundcalled');
-  };
+  onDatabound = () => {};
 
   render() {
-    console.log('render called');
     return (
       <Paper>
         <div className='col-lg-12 control-section toast-type-section'>

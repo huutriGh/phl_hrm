@@ -45,7 +45,7 @@ const Sidebar = (props) => {
     },
     {
       title: 'Leave',
-      href: '/examination',
+      href: '/leave',
       icon: <PeopleIcon />,
     },
     // {
