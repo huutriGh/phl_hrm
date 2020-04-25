@@ -70,7 +70,7 @@
     "clsx": "^1.0.4",
     "date-fns": "^2.9.0",
     "history": "^4.10.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "querystring": "^0.2.0",
     "react": "^16.12.0",

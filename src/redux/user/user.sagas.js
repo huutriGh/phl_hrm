@@ -22,6 +22,7 @@ export function* signInWithUser({ payload: { userName, password } }) {
     const user = {
       userId: res.data.userId,
       userName: res.data.userName,
+      businessEntityID: res.data.businessEntityID,
       token: res.data.access_token,
       expiresIn: res.data.expires_in,
       userFuntion: res.data.userFuntion,

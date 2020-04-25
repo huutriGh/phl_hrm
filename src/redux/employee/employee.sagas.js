@@ -1,10 +1,12 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import EmloyeeActionTypes from './employee.types.js';
-import { loadRemainingHours } from '../../api/api.utils';
+import { loadRemainingHours, loadAssignee } from '../../api/api.utils';
 import {
   loadRemainingHoursSuccess,
   loadRemainingHoursFail,
+  loadAssigneeSuccess,
+  loadAssigneeFail,
 } from './employee.actions';
 
 export function* getRemainingHours() {
@@ -22,7 +24,19 @@ export function* onGetRemainingHours() {
     getRemainingHours
   );
 }
+export function* getAssignee() {
+  try {
+    const res = yield call(loadAssignee);
+    yield put(loadAssigneeSuccess(res.data));
+  } catch (error) {
+    yield put(loadAssigneeFail(error));
+  }
+}
 
-export function* remainingHoursSagas() {
-  yield all([call(onGetRemainingHours)]);
+export function* onGetAssignee() {
+  yield takeLatest(EmloyeeActionTypes.LOAD_ASSIGNEE_START, getAssignee);
+}
+
+export function* employeeSagas() {
+  yield all([call(onGetRemainingHours), call(onGetAssignee)]);
 }

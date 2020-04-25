@@ -2,7 +2,7 @@ import { createElement } from '@syncfusion/ej2-base';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
 import { TextBox } from '@syncfusion/ej2-react-inputs';
 import { ToastComponent } from '@syncfusion/ej2-react-notifications';
-
+import { CheckBox } from '@syncfusion/ej2-react-buttons';
 import {
   Agenda,
   Day,
@@ -51,7 +51,18 @@ export default class Leave extends React.Component {
       validation: { required: true },
     },
   };
-
+  onDataBoundHalfDay() {
+    // console.log('onDataBoundHalfDay');
+    // let a = document.querySelector('#IsAllDay').ej2_instances[0];
+    // let b = document.querySelector('#IsHalfDay').ej2_instances[0];
+    // let c = document.querySelectorAll('.e-time-icon');
+    // if (a) {
+    //   a.checked = false;
+    // }
+    // console.log(a.properties.change);
+    // console.log(b);
+    // console.log(c);
+  }
   onPopupOpen(args) {
     if (args.type === 'Editor') {
       // Create required custom elements in initial time
@@ -206,6 +217,30 @@ export default class Leave extends React.Component {
         validator.addRules('Residence', {
           required: [true, 'This field is required'],
         });
+
+        let containerHalfDay = createElement('div', {
+          className: 'e-all-day-container',
+        });
+
+        let inputHalfDay = createElement('input', {
+          className: 'e-field e-input',
+          attrs: { name: 'IsHalfDay', id: 'IsHalfDay' },
+        });
+
+        let checkHalfDay = new CheckBox({
+          label: 'Half day',
+          value: args.data.IsHalfDay,
+          checked: args.data.IsHalfDay,
+          change: this.onDataBoundHalfDay.bind(this),
+        });
+        containerHalfDay.appendChild(inputHalfDay);
+        checkHalfDay.appendTo(inputHalfDay);
+        formElement.firstChild.children[6].insertBefore(
+          containerHalfDay,
+          formElement.firstChild.children[6].lastChild
+        );
+        //  inputHalfDay.setAttribute('name', 'IsAllDay');
+        //inputHalfDay.setAttribute('id', 'IsAllDay');
       }
     }
   }
@@ -214,7 +249,6 @@ export default class Leave extends React.Component {
   }
   onFailure = (args) => {
     const errorMessage = args.error[0].error.responseText;
-    console.log(errorMessage);
     this.toastObj.show({
       title: 'Warning!',
       content: errorMessage,
@@ -223,6 +257,7 @@ export default class Leave extends React.Component {
     });
   };
   onDataBound(args) {
+    console.log('databoundcall');
     var sch = document.querySelector('#residence').ej2_instances[0];
     let formElement = document.querySelector('.e-schedule-form');
     let validator = formElement.ej2_instances[0];
@@ -283,11 +318,11 @@ export default class Leave extends React.Component {
               actionComplete={this.onActionCompleted.bind(this)}
               eventClick={this.onEventClick.bind(this)}
               actionFailure={this.onFailure}
-              startHour='08:00'
-              endHour='17:30'
-              workHours={{ start: '08:00' }}
+              // startHour='08:00'
+              // endHour='17:30'
+              workHours={{ start: '08:00', end: '17:00' }}
               showQuickInfo={false}
-              currentView='Month'
+              currentView='Week'
               timezone='UTC'
             >
               <ViewsDirective>

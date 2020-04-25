@@ -8,23 +8,28 @@ import { ToastComponent } from '@syncfusion/ej2-react-notifications';
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectUserFunction } from '../../redux/user/user.selectors';
 import { leavePendingApprove } from '../../api/componentData.api';
+import { loadAssigneeStart } from '../../redux/employee/employee.actions';
+import { selectAssignee } from '../../redux/employee/employee.selectors';
 import { loadDataStart } from '../../redux/leaveStatus/leaveStatus.actions';
 import { selectCurrentLeaveStatus } from '../../redux/leaveStatus/leaveStatus.selectors';
+import { selectUserFunction } from '../../redux/user/user.selectors';
 import './index.css';
+import { KanbanDialogFormTemplate } from './KanbanDialogFormTemplate';
 
 class Kanban extends React.Component {
   constructor() {
     super(...arguments);
     this.position = { X: 'Right' };
     this.props.loadLeaveStatus();
+    this.props.loadAssignee();
     this.data = leavePendingApprove(this.props.token);
 
     this.fields = [
       { text: 'Title', key: 'Title', type: 'Input' },
       { key: 'Status', type: 'DropDown', name: 'Status' },
       { text: 'ID', key: 'RankId', type: 'Input', name: 'RankId' },
+      { text: 'Assignee', key: 'Assignee', type: 'DropDown', name: 'Assignee' },
       { key: 'Summary', type: 'TextArea', name: 'Summary' },
     ];
   }
@@ -64,23 +69,27 @@ class Kanban extends React.Component {
     return assignee.split(']')[1].match(/[A-Z]/g).join('').toUpperCase();
   }
 
-  OnActionBegin(args) {
-    console.log('OnActionBegin', args);
-  }
-  OndialogOpen = (args) => {
+  OnActionBegin(args) {}
+  OndialogOpen = async (args) => {
     const userFunc = JSON.parse(this.props.userFuntion);
-    console.log('props', userFunc);
+    const empid = this.props.businessEntityID;
+
+    console.log('businessEntityID', empid);
+    console.log('args', args.data);
     let func = 'Applied|Created';
-    if (userFunc.find((f) => f === 'F1')) {
+
+    // let funid = '0|1';
+    if (userFunc.find((f) => f === 'F1') || empid === args.data.AssigneeApp) {
       func += '|Approved';
+      // funid += '|3';
     }
-    if (userFunc.find((f) => f === 'F2')) {
+    if (userFunc.find((f) => f === 'F2') || empid === args.data.AssigneeVer) {
       func += '|Verified';
     }
     if (userFunc.find((f) => f === 'F3')) {
       func += '|Rejected';
     }
-
+    console.log('func', func);
     let formElement = args.element.querySelector('.e-kanban-form');
 
     let validator = formElement.ej2_instances[0];
@@ -90,22 +99,35 @@ class Kanban extends React.Component {
         `Perrmission is deny. You can only choose ${func}`,
       ],
     };
+    //Assignee_wrapper
 
     document.getElementsByName('RankId').readOnly = true;
   };
 
   onFailure = (args) => {
-    const errorMessage = args.error[0].error.responseText;
-    this.toastObj.show({
-      title: 'Warning!',
-      content: errorMessage,
-      cssClass: 'e-toast-warning',
-      icon: 'e-warning toast-icons',
-    });
+    try {
+      const errorMessage = args.error[0].error.responseText;
+      this.toastObj.show({
+        title: 'Warning!',
+        content: errorMessage,
+        cssClass: 'e-toast-warning',
+        icon: 'e-warning toast-icons',
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   onDatabound = () => {};
-
+  dialogTemplate = (props) => {
+    return (
+      <KanbanDialogFormTemplate
+        assignee={this.props.assignee}
+        leaveStatus={this.props.leaveStatus}
+        {...props}
+      />
+    );
+  };
   render() {
     return (
       <Paper>
@@ -133,7 +155,8 @@ class Kanban extends React.Component {
             selectionType: 'Multiple',
             priority: 'Title',
           }}
-          dialogSettings={{ fields: this.fields }}
+          // dialogSettings={{ fields: this.fields }}
+          dialogSettings={{ template: this.dialogTemplate }}
           actionBegin={this.OnActionBegin}
           dialogOpen={this.OndialogOpen}
           actionFailure={this.onFailure}
@@ -161,10 +184,12 @@ class Kanban extends React.Component {
 }
 const mapStateToprops = createStructuredSelector({
   leaveStatus: selectCurrentLeaveStatus,
+  assignee: selectAssignee,
   userFuntion: selectUserFunction,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   loadLeaveStatus: () => dispatch(loadDataStart()),
+  loadAssignee: () => dispatch(loadAssigneeStart()),
 });
 export default connect(mapStateToprops, mapDispatchToProps)(Kanban);

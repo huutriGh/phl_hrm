@@ -1,8 +1,8 @@
-
 import EmployeeActionTypes from './employee.types';
 
 const INITIAL_STATE = {
   remainingHours: null,
+  assignee: null,
   error: null,
 };
 
@@ -14,10 +14,16 @@ const employeeActionTypesReducer = (state = INITIAL_STATE, action) => {
         remainingHours: action.payload,
         error: null,
       };
-    case EmployeeActionTypes.LOAD_REMAINING_HOURS_FAILURE:
+    case EmployeeActionTypes.LOAD_LOAD_ASSIGNEE_SUCCESS:
       return {
         ...state,
-        remainingHours: null,
+        assignee: action.payload,
+        error: null,
+      };
+    case EmployeeActionTypes.LOAD_REMAINING_HOURS_FAILURE:
+    case EmployeeActionTypes.LOAD_LOAD_ASSIGNEE_FAILURE:
+      return {
+        ...state,
         error: action.payload,
       };
 

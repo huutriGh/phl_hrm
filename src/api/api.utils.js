@@ -23,3 +23,6 @@ export const loadLeaveStatus = async () => {
 export const loadRemainingHours = async () => {
   return await api.get('api/Employee/EmployeeLeaveRemainingHours');
 };
+export const loadAssignee = async () => {
+  return await api.get('api/Employee/GetAssignee');
+};

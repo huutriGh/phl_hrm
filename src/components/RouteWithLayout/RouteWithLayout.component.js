@@ -14,7 +14,11 @@ const RouteWithLayout = ({
       render={(matchProps) => {
         return currentUser ? (
           <Layout>
-            <Component token={currentUser.token} {...matchProps} />
+            <Component
+              businessEntityID={currentUser.businessEntityID}
+              token={currentUser.token}
+              {...matchProps}
+            />
           </Layout>
         ) : (
           <Redirect to='/sign-in' />
