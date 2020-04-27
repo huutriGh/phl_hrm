@@ -25,23 +25,23 @@ class Kanban extends React.Component {
     this.props.loadAssignee();
     this.data = leavePendingApprove(this.props.token);
 
-    this.fields = [
-      { text: 'Title', key: 'Title', type: 'Input' },
-      { key: 'Status', type: 'DropDown', name: 'Status' },
-      { text: 'ID', key: 'RankId', type: 'Input', name: 'RankId' },
-      { text: 'Assignee', key: 'Assignee', type: 'DropDown', name: 'Assignee' },
-      { key: 'Summary', type: 'TextArea', name: 'Summary' },
-    ];
+    // this.fields = [
+    //   { text: 'Title', key: 'Title', type: 'Input' },
+    //   { key: 'Status', type: 'DropDown', name: 'Status' },
+    //   { text: 'ID', key: 'RankId', type: 'Input', name: 'RankId' },
+    //   { text: 'Assignee', key: 'Assignee', type: 'DropDown', name: 'Assignee' },
+    //   { key: 'Summary', type: 'TextArea', name: 'Summary' },
+    // ];
   }
-  columnTemplate(props) {
+  columnTemplate = (props) => {
     return (
       <div className='header-template-wrap'>
         <div className={'header-icon e-icons ' + props.keyField}></div>
         <div className='header-text'>{props.headerText}</div>
       </div>
     );
-  }
-  cardTemplate(props) {
+  };
+  cardTemplate = (props) => {
     return (
       <div className={'card-template ' + props.Priority}>
         <div className='e-card-header'>
@@ -64,18 +64,15 @@ class Kanban extends React.Component {
         </div>
       </div>
     );
-  }
-  getString(assignee) {
+  };
+  getString = (assignee) => {
     return assignee.split(']')[1].match(/[A-Z]/g).join('').toUpperCase();
-  }
+  };
 
   OnActionBegin(args) {}
   OndialogOpen = async (args) => {
     const userFunc = JSON.parse(this.props.userFuntion);
     const empid = this.props.businessEntityID;
-
-    console.log('businessEntityID', empid);
-    console.log('args', args.data);
     let func = 'Applied|Created';
 
     // let funid = '0|1';
@@ -89,7 +86,6 @@ class Kanban extends React.Component {
     if (userFunc.find((f) => f === 'F3')) {
       func += '|Rejected';
     }
-    console.log('func', func);
     let formElement = args.element.querySelector('.e-kanban-form');
 
     let validator = formElement.ej2_instances[0];
@@ -151,7 +147,7 @@ class Kanban extends React.Component {
           swimlaneSettings={{ keyField: 'Assignee' }}
           cardSettings={{
             headerField: 'Title',
-            template: this.cardTemplate.bind(this),
+            template: this.cardTemplate,
             selectionType: 'Multiple',
             priority: 'Title',
           }}
@@ -171,7 +167,7 @@ class Kanban extends React.Component {
                       headerText={l.LeaveStatusDesc}
                       keyField={l.LeaveStatusDesc}
                       allowToggle={true}
-                      template={this.columnTemplate.bind(this)}
+                      template={this.columnTemplate}
                     />
                   );
                 })
