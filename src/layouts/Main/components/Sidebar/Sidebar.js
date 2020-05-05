@@ -2,6 +2,7 @@ import { Divider, Drawer } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import { Schedule } from '@material-ui/icons';
 //import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
@@ -33,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Sidebar = (props) => {
-  
   const { open, variant, onClose, className, ...rest } = props;
   const classes = useStyles();
 
@@ -41,12 +41,12 @@ const Sidebar = (props) => {
     {
       title: 'Dash board',
       href: '/',
-      icon: <DashboardIcon />
+      icon: <DashboardIcon />,
     },
     {
       title: 'Leave',
       href: '/leave',
-      icon: <PeopleIcon />,
+      icon: <Schedule />,
     },
     // {
     //   title: 'Quản lý dược',
@@ -66,7 +66,12 @@ const Sidebar = (props) => {
     {
       title: 'Approve',
       href: '/approve',
-      icon: <LockOpenIcon />
+      icon: <LockOpenIcon />,
+    },
+    {
+      title: 'Employee',
+      href: '/employee',
+      icon: <PeopleIcon />,
     },
     // {
     //   title: 'Settings',

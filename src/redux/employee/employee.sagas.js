@@ -9,9 +9,9 @@ import {
   loadAssigneeFail,
 } from './employee.actions';
 
-export function* getRemainingHours() {
+export function* getRemainingHours({ payload: token }) {
   try {
-    const res = yield call(loadRemainingHours);
+    const res = yield call(loadRemainingHours, token);
     yield put(loadRemainingHoursSuccess(res.data));
   } catch (error) {
     yield put(loadRemainingHoursFail(error));
@@ -24,9 +24,9 @@ export function* onGetRemainingHours() {
     getRemainingHours
   );
 }
-export function* getAssignee() {
+export function* getAssignee({ payload: token }) {
   try {
-    const res = yield call(loadAssignee);
+    const res = yield call(loadAssignee, token);
     yield put(loadAssigneeSuccess(res.data));
   } catch (error) {
     yield put(loadAssigneeFail(error));

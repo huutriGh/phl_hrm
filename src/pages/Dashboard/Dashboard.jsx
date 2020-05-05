@@ -1,5 +1,8 @@
 import './index.css';
 import * as React from 'react';
+import { loadDataStart } from '../../redux/leaveStatus/leaveStatus.actions';
+import { loadAssigneeStart } from '../../redux/employee/employee.actions';
+import { connect } from 'react-redux';
 import {
   TimelineViews,
   TimelineMonth,
@@ -19,9 +22,12 @@ import { GetInputData } from './../../api/componentData.api';
 /**
  * schedule timeline resource grouping sample
  */
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
   constructor() {
     super(...arguments);
+    this.props.loadLeaveStatus(this.props.token);
+    this.props.loadAssignee(this.props.token);
+
     this.Departmentdata = GetInputData(
       '/api/Department/getDepartment',
       this.props.token
@@ -102,3 +108,8 @@ export default class Dashboard extends React.Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch) => ({
+  loadLeaveStatus: (token) => dispatch(loadDataStart(token)),
+  loadAssignee: (token) => dispatch(loadAssigneeStart(token)),
+});
+export default connect(null, mapDispatchToProps)(Dashboard);

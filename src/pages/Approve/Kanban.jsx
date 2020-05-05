@@ -9,9 +9,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { leavePendingApprove } from '../../api/componentData.api';
-import { loadAssigneeStart } from '../../redux/employee/employee.actions';
 import { selectAssignee } from '../../redux/employee/employee.selectors';
-import { loadDataStart } from '../../redux/leaveStatus/leaveStatus.actions';
 import { selectCurrentLeaveStatus } from '../../redux/leaveStatus/leaveStatus.selectors';
 import { selectUserFunction } from '../../redux/user/user.selectors';
 import './index.css';
@@ -21,17 +19,7 @@ class Kanban extends React.Component {
   constructor() {
     super(...arguments);
     this.position = { X: 'Right' };
-    this.props.loadLeaveStatus();
-    this.props.loadAssignee();
     this.data = leavePendingApprove(this.props.token);
-
-    // this.fields = [
-    //   { text: 'Title', key: 'Title', type: 'Input' },
-    //   { key: 'Status', type: 'DropDown', name: 'Status' },
-    //   { text: 'ID', key: 'RankId', type: 'Input', name: 'RankId' },
-    //   { text: 'Assignee', key: 'Assignee', type: 'DropDown', name: 'Assignee' },
-    //   { key: 'Summary', type: 'TextArea', name: 'Summary' },
-    // ];
   }
   columnTemplate = (props) => {
     return (
@@ -151,7 +139,6 @@ class Kanban extends React.Component {
             selectionType: 'Multiple',
             priority: 'Title',
           }}
-          // dialogSettings={{ fields: this.fields }}
           dialogSettings={{ template: this.dialogTemplate }}
           actionBegin={this.OnActionBegin}
           dialogOpen={this.OndialogOpen}
@@ -184,8 +171,4 @@ const mapStateToprops = createStructuredSelector({
   userFuntion: selectUserFunction,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  loadLeaveStatus: () => dispatch(loadDataStart()),
-  loadAssignee: () => dispatch(loadAssigneeStart()),
-});
-export default connect(mapStateToprops, mapDispatchToProps)(Kanban);
+export default connect(mapStateToprops, null)(Kanban);

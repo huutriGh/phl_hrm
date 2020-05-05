@@ -4,9 +4,9 @@ import { loadDataSuccess, loadDataFail } from './leaveStatus.actions';
 import LeaveStatusActionTypes from './leaveStatus.types.js';
 import { loadLeaveStatus } from '../../api/api.utils';
 
-export function* getLeaveStatus() {
+export function* getLeaveStatus({ payload: token }) {
   try {
-    const res = yield call(loadLeaveStatus);
+    const res = yield call(loadLeaveStatus, token);
     yield put(loadDataSuccess(res.data));
   } catch (error) {
     yield put(loadDataFail(error));

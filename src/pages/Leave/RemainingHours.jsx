@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectRemainingHours } from '../../redux/employee/employee.selectors';
 import { loadRemainingHoursStart } from '../../redux/employee/employee.actions';
-const RemainingHours = ({ remainingHours, loadRemainingHour }) => {
+const RemainingHours = ({ remainingHours, loadRemainingHour, token }) => {
   useEffect(() => {
-    loadRemainingHour();
+    loadRemainingHour(token);
   }, [loadRemainingHour]);
   return (
     <div className='col-lg-3 property-section'>
@@ -47,6 +47,6 @@ const mapStateToProps = createStructuredSelector({
   remainingHours: selectRemainingHours,
 });
 const mapDispatchToProps = (dispatch) => ({
-  loadRemainingHour: () => dispatch(loadRemainingHoursStart()),
+  loadRemainingHour: (token) => dispatch(loadRemainingHoursStart(token)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RemainingHours);

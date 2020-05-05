@@ -4,12 +4,12 @@ import { loadDataSuccess, loadDataFail } from './leaveType.actions';
 import LeaveTypeActionTypes from './leaveType.types';
 import { loadLeaveType } from './../../api/api.utils';
 
-export function* getLeaveType() {
+export function* getLeaveType({ payload: token }) {
   try {
-    const res = yield call(loadLeaveType);
+    const res = yield call(loadLeaveType, token);
     const leaveType = {
       id: res.data.LeaveTypeId,
-      description: res.data.Description
+      description: res.data.Description,
     };
     yield put(loadDataSuccess(leaveType));
   } catch (error) {

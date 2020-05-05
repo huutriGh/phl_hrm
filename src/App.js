@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import './assets/scss/index.scss';
@@ -9,20 +9,20 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect';
 import './App.css';
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
-  draw: chartjs.draw
+  draw: chartjs.draw,
 });
 
-const App = ({ currentUser, checkUserSession }) => {
-  useEffect(() => {
-    checkUserSession();
-  }, [checkUserSession]);
+const App = ({ currentUser }) => {
+  // useEffect(() => {
+  //   checkUserSession();
+  // }, [checkUserSession]);
   return <Routes currentUser={currentUser} />;
 };
 
-const mapDispatchToProps = dispatch => ({
-  checkUserSession: () => dispatch(checkUserSession())
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession()),
 });
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);

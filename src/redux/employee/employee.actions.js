@@ -1,7 +1,8 @@
 import EmloyeeActionTypes from './employee.types';
 
-export const loadRemainingHoursStart = () => ({
+export const loadRemainingHoursStart = (token) => ({
   type: EmloyeeActionTypes.LOAD_REMAINING_HOURS_START,
+  payload: token,
 });
 export const loadRemainingHoursSuccess = (leaveStatus) => ({
   type: EmloyeeActionTypes.LOAD_REMAINING_HOURS_SUCCESS,
@@ -11,8 +12,9 @@ export const loadRemainingHoursFail = (error) => ({
   type: EmloyeeActionTypes.LOAD_REMAINING_HOURS_FAILURE,
   payload: error,
 });
-export const loadAssigneeStart = () => ({
+export const loadAssigneeStart = (token) => ({
   type: EmloyeeActionTypes.LOAD_ASSIGNEE_START,
+  payload: token,
 });
 export const loadAssigneeSuccess = (assignee) => ({
   type: EmloyeeActionTypes.LOAD_LOAD_ASSIGNEE_SUCCESS,

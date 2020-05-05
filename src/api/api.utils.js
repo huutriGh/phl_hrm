@@ -1,5 +1,11 @@
 import api from './hr.api';
 
+const config = (token) => ({
+  headers: {
+    Authorization: `Bearer ${token ? token : ''}`,
+  },
+});
+
 export const login = async ({ userName, password }) => {
   const config = {
     headers: {
@@ -14,15 +20,18 @@ export const login = async ({ userName, password }) => {
   );
 };
 
-export const loadLeaveType = async () => {
-  return await api.get('api/Leave/GetLeaveType');
+export const loadLeaveType = async (token = null) => {
+  return await api.get('api/Leave/GetLeaveType', config(token));
 };
-export const loadLeaveStatus = async () => {
-  return await api.get('api/Leave/GetLeaveStatus');
+export const loadLeaveStatus = async (token = null) => {
+  return await api.get('api/Leave/GetLeaveStatus', config(token));
 };
-export const loadRemainingHours = async () => {
-  return await api.get('api/Employee/EmployeeLeaveRemainingHours');
+export const loadRemainingHours = async (token = null) => {
+  return await api.get(
+    'api/Employee/EmployeeLeaveRemainingHours',
+    config(token)
+  );
 };
-export const loadAssignee = async () => {
-  return await api.get('api/Employee/GetAssignee');
+export const loadAssignee = async (token = null) => {
+  return await api.get('api/Employee/GetAssignee', config(token));
 };

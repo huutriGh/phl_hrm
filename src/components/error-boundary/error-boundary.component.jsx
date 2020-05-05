@@ -19,17 +19,16 @@ export default class ErrorBoundary extends Component {
     return { hasErrored: true };
   }
 
-  componentDidCatch(error, info) {
-    console.log(error);
-  }
+  componentDidCatch(error, info) {}
 
   render() {
-    console.log('fdsafdsafdsfds', this.state.hasErrored);
     if (this.state.hasErrored) {
       return (
         <ErrorImageOverlay>
           <ErrorImageContainer imageUrl='https://i.imgur.com/yW2W9SC.png' />
-          <ErrorImageText>Sorry this page is broken. Please refresh to try again.</ErrorImageText>
+          <ErrorImageText>
+            Sorry this page is broken. Please refresh to try again.
+          </ErrorImageText>
         </ErrorImageOverlay>
       );
     }

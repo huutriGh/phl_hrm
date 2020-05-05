@@ -7,7 +7,10 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import validate from 'validate.js';
 import { signInStart } from './../../redux/user/user.actions';
-import { selectCurrentUser } from './../../redux/user/user.selectors';
+import {
+  selectCurrentUser,
+  selectCurrentUserError,
+} from './../../redux/user/user.selectors';
 
 const schema = {
   user: {
@@ -119,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = (props) => {
-  const { signInWithUser, currentUser } = props;
+  const { signInWithUser, currentUser, currentUserError } = props;
   const classes = useStyles();
 
   const [formState, setFormState] = useState({
@@ -174,16 +177,19 @@ const SignIn = (props) => {
         <Grid className={classes.quoteContainer} item lg={8}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
-              <Typography className={classes.quoteText} variant='h1'>
-               
-              </Typography>
+              <Typography
+                className={classes.quoteText}
+                variant='h1'
+              ></Typography>
               <div className={classes.person}>
-                <Typography className={classes.name} variant='body1'>
-               
-                </Typography>
-                <Typography className={classes.bio} variant='body2'>
-               
-                </Typography>
+                <Typography
+                  className={classes.name}
+                  variant='body1'
+                ></Typography>
+                <Typography
+                  className={classes.bio}
+                  variant='body2'
+                ></Typography>
               </div>
             </div>
           </div>
@@ -200,7 +206,7 @@ const SignIn = (props) => {
                 <Typography className={classes.title} variant='h2'>
                   Sign in
                 </Typography>
-                
+
                 <TextField
                   className={classes.textField}
                   error={hasError('user')}
@@ -240,14 +246,11 @@ const SignIn = (props) => {
                 >
                   SIGN IN NOW
                 </Button>
-                {/*
-                  <Typography color='textSecondary' variant='body1'>
-                  Don't have an account?{' '}
-                  <Link component={RouterLink} to='/sign-up' variant='h6'>
-                    Sign up
-                  </Link>
-                </Typography>
-                   */}
+                {currentUserError ? (
+                  <Typography color='error'>
+                    Login fail. Please check your user or password.
+                  </Typography>
+                ) : null}
               </form>
             </div>
           </div>
@@ -262,6 +265,7 @@ SignIn.propTypes = {
 };
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  currentUserError: selectCurrentUserError,
 });
 const mapDispatchToProps = (dispatch) => ({
   signInWithUser: (userName, password) =>

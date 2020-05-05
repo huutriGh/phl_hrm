@@ -348,7 +348,7 @@ export default class Leave extends React.Component {
             </ScheduleComponent>
           </div>
         </div>
-        <RemainingHours />
+        <RemainingHours token={this.props.token} />
       </div>
     );
   }
